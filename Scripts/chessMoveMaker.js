@@ -105,12 +105,12 @@ const promotion = function (transferee, departPose, arrivePose) {
     }
     if (transferee === 'lp' && arrivePose[0] === 7) {
         rivisor('lq', arrivePose, arrivePose);
-        setTimeout(function(){MoveAnimator.chessPieces(game.boardSize, game.padding, game.board);}, 1600);
+        setTimeout(function(){MoveAnimator.chessPieces(game.boardSize, game.padding, game.board);}, 2000);
 
     }
     if (transferee === 'dp' && arrivePose[0] === 0) {
         rivisor('dq', arrivePose, arrivePose);
-        setTimeout(function(){MoveAnimator.chessPieces(game.boardSize, game.padding, game.board);}, 1600);
+        setTimeout(function(){MoveAnimator.chessPieces(game.boardSize, game.padding, game.board);}, 2000);
 
     }
 }
