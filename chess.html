@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Chess
+    </title>
+    <meta charset="utf-8">
+    <style>
+        canvas {
+            background: rgba(154, 231, 247, 0.3);
+        }
+
+        body {
+            background: url("Img/background2.jpg")
+        }
+    </style>
+
+</head>
+
+<body>
+    <canvas id="chessBoard" draggable="true" ondragstart="drag(event)"></canvas>
+    <canvas id="showCase" ondrop="drop(event)" ondragover="allowDrop(event)"><canvas>
+
+        <script src="Scripts/libraries/jquery.min.js"></script>
+        <script src="Scripts/libraries/underscore.js"></script>
+
+        <script src="Scripts/libraries/clone.js"></script>
+
+        <script src="Scripts/init.js"></script>
+
+      <script src="Scripts/chessData.js"></script>
+      <script src = "Scripts/chessBoard.js"></script>
+      <script src = "Scripts/chessPieces.js"></script>
+      <script src = "Scripts/dragDrop.js"></script>
+      <script src="Scripts/chessShowcase.js"></script>
+      <script src="Scripts/chessMoveMaker.js"></script>
+
+      <script>
+      /*
+      const v = [['lr','lb','ln', 'lq', 'lk', 'ln', 'lb', 'lr'],
+                   ['lp','lp','lp', 'lp', 'lp', 'lp', 'lp', 'lp'],
+                    ['  ','  ','  ', '  ', '  ', '  ', '  ', '  '],
+                     ['  ','  ','  ', '  ', '  ', '  ', '  ', '  '],
+                      ['  ','  ','  ', 'dp', '  ', '  ', '  ', '  '],
+                       ['  ','  ','  ', '  ', '  ', '  ', '  ', '  '],
+                        ['dp','dp','dp', '  ', 'dp', 'dp', 'dp', 'dp'],
+                         ['dr','db','dn', 'dq', 'dk', 'dn', 'db', 'dr']];
+     const c = [['lr','lb','ln', 'lq', 'lk', 'ln', 'lb', 'lr'],
+                  ['lp','lp','lp', 'lp', 'lp', 'lp', 'lp', 'lp'],
+                   ['  ','  ','  ', '  ', '  ', '  ', '  ', '  '],
+                    ['  ','  ','  ', '  ', '  ', '  ', '  ', '  '],
+                     ['  ','  ','  ', 'dp', '  ', '  ', '  ', '  '],
+                      ['  ','  ','  ', 'dq', '  ', '  ', '  ', '  '],
+                       ['dp','dp','dp', '  ', 'dp', 'dp', 'dp', 'dp'],
+                        ['dr','db','dn', '  ', 'dk', 'dn', 'db', 'dr']];
+    const f = [['lr','lb','ln', 'lq', 'lk', 'ln', 'lb', 'lr'],
+                 ['lp','lp','lp', 'lp', 'lp', 'lp', 'lp', 'lp'],
+                  ['dp','  ','  ', '  ', '  ', '  ', '  ', '  '],
+                   ['  ','  ','  ', '  ', '  ', '  ', '  ', '  '],
+                    ['  ','  ','  ', 'dp', '  ', '  ', '  ', '  '],
+                     ['  ','  ','  ', 'dq', '  ', '  ', '  ', '  '],
+                      ['dp','dp','dp', '  ', 'dp', 'dp', '  ', 'dp'],
+                       ['dr','db','dn', '  ', 'dk', 'dn', 'db', 'dr']];
+   const h = [['lr','lb','ln', 'lq', 'lk', 'ln', 'lb', '  '],
+                ['lp','lp','lp', 'lp', 'lp', 'lp', 'lp', 'lp'],
+                 ['dp','  ','  ', '  ', '  ', '  ', '  ', '  '],
+                  ['  ','  ','  ', '  ', '  ', '  ', '  ', '  '],
+                   ['  ','  ','  ', 'dp', '  ', '  ', '  ', '  '],
+                    ['  ','  ','  ', 'dq', '  ', '  ', '  ', '  '],
+                     ['dp','dp','dp', '  ', 'dp', 'dp', '  ', 'dp'],
+                      ['dr','db','dn', 'lr', 'dk', 'dn', 'db', 'dr']];
+  const j = [['lr','  ','ln', 'lq', 'lk', 'ln', 'lb', '  '],
+               ['lp','lp','lp', 'lp', 'lp', 'lp', 'lp', 'lp'],
+                ['dp','  ','  ', '  ', '  ', '  ', '  ', '  '],
+                 ['  ','  ','  ', '  ', '  ', '  ', '  ', '  '],
+                  ['  ','  ','  ', 'dp', '  ', '  ', '  ', '  '],
+                   ['  ','  ','  ', 'dq', '  ', '  ', '  ', '  '],
+                    ['dp','dp','dp', '  ', 'dp', 'dp', '  ', 'dp'],
+                     ['dr','db','dn', 'lr', 'dk', 'dn', 'lb', 'dr']];
+ const w = [['lr','  ','ln', 'lq', 'lk', 'ln', 'lb', '  '],
+              ['lp','lp','lp', 'lp', 'lp', 'lp', '  ', 'lp'],
+               ['dp','  ','  ', '  ', '  ', '  ', '  ', '  '],
+                ['  ','  ','  ', '  ', '  ', '  ', 'lp', '  '],
+                 ['  ','  ','  ', 'dp', '  ', '  ', '  ', '  '],
+                  ['  ','  ','  ', 'dq', '  ', '  ', '  ', '  '],
+                   ['dp','dp','dp', '  ', 'dp', 'dp', '  ', 'dp'],
+                    ['dr','db','dn', 'lr', 'dk', 'dn', 'lb', 'dr']];
+const q = [['lr','  ','ln', 'dp', 'lk', 'ln', 'lb', '  '],
+             ['lp','lp','lp', 'lp', 'lp', 'lp', '  ', 'lp'],
+              ['dp','  ','  ', '  ', '  ', '  ', '  ', '  '],
+               ['  ','  ','  ', '  ', '  ', '  ', 'lp', '  '],
+                ['  ','  ','  ', 'dp', '  ', '  ', '  ', '  '],
+                 ['  ','  ','  ', 'dq', '  ', '  ', '  ', '  '],
+                  ['  ','dp','dp', '  ', 'dp', 'dp', '  ', 'dp'],
+                   ['dr','db','dn', 'lr', 'dk', 'dn', 'lb', 'dr']];
+const s = [['lr','  ','  ', 'dp', 'lk', 'ln', 'lb', '  '],
+            ['lp','lp','lp', 'lp', 'lp', 'lp', '  ', 'lp'],
+             ['dp','  ','  ', '  ', '  ', '  ', '  ', '  '],
+              ['  ','  ','  ', '  ', '  ', '  ', 'lp', '  '],
+               ['  ','  ','  ', 'dp', '  ', '  ', '  ', '  '],
+                ['  ','  ','  ', 'dq', '  ', '  ', '  ', '  '],
+                 ['  ','dp','dp', '  ', 'dp', 'dp', '  ', 'dp'],
+                  ['dr','db','dn', 'lr', 'dk', 'ln', 'lb', 'dr']];
+      chessBoard();
+      // Delay for giving time to load Image files completely.
+      setTimeout(function(){
+         MoveAnimator.chessPieces(game.boardSize, game.padding, v);
+     }, 1000);
+      setTimeout(function(){
+         MoveAnimator.chessPieces(game.boardSize, game.padding, c);
+     }, 4000);
+     setTimeout(function(){
+        MoveAnimator.chessPieces(game.boardSize, game.padding, f);
+    }, 6000);
+    setTimeout(function(){
+       MoveAnimator.chessPieces(game.boardSize, game.padding, h);
+   }, 10000);
+   setTimeout(function(){
+      MoveAnimator.chessPieces(game.boardSize, game.padding, j);
+  }, 16000);
+  setTimeout(function(){
+     MoveAnimator.chessPieces(game.boardSize, game.padding, w);
+ }, 22000);
+ setTimeout(function(){
+    MoveAnimator.chessPieces(game.boardSize, game.padding, q);
+}, 26000);
+setTimeout(function(){
+   MoveAnimator.chessPieces(game.boardSize, game.padding, s);
+}, 29000);*/
+    // MoveAnimator.chessPieces(game.boardSize, game.padding, v);
+    // MoveAnimator.chessPieces(game.boardSize, game.padding, c);
+    // MoveAnimator.chessPieces(game.boardSize, game.padding, f);
+
+     </script>
+
+  </body>
+</html>
