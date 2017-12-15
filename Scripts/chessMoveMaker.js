@@ -246,7 +246,7 @@ document.addEventListener("keydown", function(event){
         start = !start;
         firstTimePushstart = false;
     } else {
-        if (event = space) {
+        if (event.keyCode === space) {
             overAllPause = !overAllPause;
         }
         if (overAllPause) {
