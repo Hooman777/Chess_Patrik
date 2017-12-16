@@ -23,6 +23,12 @@ function getMousePos(canvas, evt) {
 }
 //
 const castling = function (transferee, departPose, arrivePose) {
+    if (error) {
+        return;
+    }
+    if (!(transferee[0] === 'l' && !pauseDark) && !(transferee[0] === 'd' && !pauseLight)) {
+        return;
+    }
     const rivisor = function(transferee, departPose, arrivePose) {
         var revisedBoard = utility.deepClone(game.board);
         const _transferee = transferee;
@@ -213,7 +219,6 @@ canvas.addEventListener('click', function(evt) {
                 reSelect(ii, jj);
                 castling(transferee, departPose, arrivePose);
                 rivisorBoard(transferee, departPose, arrivePose, killedPiece);
-
                 setTimeout(function(){MoveAnimator.chessPieces(game.boardSize, game.padding, game.board);}, (200+extendedTime));
                 promotion(transferee, departPose, arrivePose);
                 extendedTime = 0;
